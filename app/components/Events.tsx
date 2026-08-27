@@ -34,7 +34,7 @@ export function Events() {
         </FadeIn>
 
         <div className="flex flex-col gap-8">
-          {events.map((event, index) => (
+          {events.map((event: any, index: number) => (
             <FadeIn key={event.id} delay={index * 0.2}>
               <div className="bg-[#FAF9F6] rounded-[28px] p-6 shadow-xl border border-white/20 relative overflow-hidden" style={{ boxShadow: "0 16px 36px rgba(81, 84, 66, 0.08)" }}>
               {/* Decorative corner */}

@@ -45,7 +45,7 @@ export function Gallery() {
 
         {/* Masonry-style grid layout */}
         <div className="grid grid-cols-2 gap-3 px-1">
-          {gallery.images.map((img, index) => (
+          {gallery.images.map((img: any, index: number) => (
             <FadeIn 
               key={index} 
               delay={index * 0.1} 

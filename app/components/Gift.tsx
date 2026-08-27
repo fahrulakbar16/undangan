@@ -54,7 +54,7 @@ export function Gift() {
         </div>
 
         <div className="flex flex-col gap-6">
-          {gift.bank_accounts.map((account, index) => (
+          {gift.bank_accounts.map((account: any, index: number) => (
             <FadeIn key={account.id} delay={index * 0.2}>
               <div className="bg-[var(--color-beige)]/30 rounded-2xl p-5 border border-[var(--color-sage)]/60 relative overflow-hidden text-left shadow-sm">
                 <h3 className="font-serif text-lg mb-1 text-[var(--color-dark-olive)] font-bold">

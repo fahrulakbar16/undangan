@@ -1,4 +1,4 @@
-import { InvitationData } from "./types";
+export type InvitationData = any;
 
 export const MOCK_DATA: InvitationData = {
   invitation_meta: {

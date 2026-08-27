@@ -44,7 +44,7 @@ export function Story() {
         </div>
 
         <div className="relative border-l border-[var(--color-sage)]/60 ml-2 pb-4 space-y-10">
-          {story.timeline.map((item, index) => (
+          {story.timeline.map((item: any, index: number) => (
             <FadeIn key={index} delay={index * 0.15} direction="left">
               <div className="relative pl-6">
                 {/* Timeline dot */}

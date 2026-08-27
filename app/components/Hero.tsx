@@ -20,7 +20,7 @@ function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
     },
   };
 
-  const childVariants = {
+  const childVariants: any = {
     hidden: {
       opacity: 0,
       y: 15,
