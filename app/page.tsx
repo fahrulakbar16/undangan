@@ -1,69 +1,125 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { Hero } from "./components/Hero";
+import { Quote } from "./components/Quote";
+import { Couple } from "./components/Couple";
+import { Events } from "./components/Events";
+import { Story } from "./components/Story";
+import { Gallery } from "./components/Gallery";
+import { Gift } from "./components/Gift";
+import { Wishes } from "./components/Wishes";
+import { FloatingNav } from "./components/FloatingNav";
+import { Cover } from "./components/Cover";
+import { MOCK_DATA } from "./data";
+import { Volume2, VolumeX } from "lucide-react";
 
 export default function Home() {
+  const [isOpened, setIsOpened] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleOpen = () => {
+    setIsOpened(true);
+    if (audioRef.current) {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((e) => console.log("Audio play failed:", e));
+    }
+  };
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Prevent scrolling when cover is active
+    if (!isOpened) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpened]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="w-full flex flex-col bg-[var(--color-sage)] min-h-screen relative">
+      <Cover isOpened={isOpened} onOpen={handleOpen} />
+      
+      {/* Background Music */}
+      {MOCK_DATA.invitation_meta?.music_url && (
+        <audio ref={audioRef} loop src={MOCK_DATA.invitation_meta.music_url} />
+      )}
+
+      {/* Audio Control Button */}
+      {isOpened && MOCK_DATA.invitation_meta?.music_url && (
+        <button
+          onClick={toggleAudio}
+          className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 p-3 sm:p-4 rounded-full bg-white/70 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--color-olive)]/20 text-[var(--color-olive)] hover:bg-white hover:scale-110 transition-all duration-300"
+          aria-label="Toggle Music"
+        >
+          {isPlaying ? (
+            <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />
+          ) : (
+            <VolumeX className="w-5 h-5 sm:w-6 sm:h-6" />
+          )}
+        </button>
+      )}
+
+      {/* Sections with IDs for scrolling */}
+      {MOCK_DATA.hero_section && (
+        <div id="top">
+          <Hero isOpened={isOpened} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      )}
+      
+      {MOCK_DATA.quotes && MOCK_DATA.quotes.length > 0 && (
+        <Quote />
+      )}
+      
+      {MOCK_DATA.couple && (
+        <div id="couple">
+          <Couple />
         </div>
-      </main>
-    </div>
+      )}
+      
+      {MOCK_DATA.events && MOCK_DATA.events.length > 0 && (
+        <div id="events">
+          <Events />
+        </div>
+      )}
+      
+      {MOCK_DATA.story && MOCK_DATA.story.timeline && MOCK_DATA.story.timeline.length > 0 && (
+        <Story />
+      )}
+      
+      {MOCK_DATA.gallery && MOCK_DATA.gallery.images && MOCK_DATA.gallery.images.length > 0 && (
+        <div id="gallery">
+          <Gallery />
+        </div>
+      )}
+      
+      {MOCK_DATA.gift && MOCK_DATA.gift.bank_accounts && MOCK_DATA.gift.bank_accounts.length > 0 && (
+        <Gift />
+      )}
+      
+      {MOCK_DATA.wishes && (
+        <Wishes />
+      )}
+      
+      {/* Global Elements */}
+      <FloatingNav />
+    </main>
   );
 }
