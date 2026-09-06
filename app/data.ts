@@ -97,6 +97,63 @@ export const MOCK_DATA: InvitationData = {
       attend: "tidak hadir",
     },
   ],
+  story: {
+    section_label: "Perjalanan Cinta",
+    section_title: "Our Story",
+    section_desc: "Kisah perjalanan cinta kami yang penuh berkah dan kebahagiaan.",
+    timeline: [
+      {
+        year: "2019",
+        title: "Pertemuan Pertama",
+        description: "Kami pertama kali bertemu di sebuah acara kampus. Saat itu, pandangan pertama yang penuh makna menjadi awal dari segalanya.",
+      },
+      {
+        year: "2021",
+        title: "Menjalin Hubungan",
+        description: "Setelah dua tahun saling mengenal, kami memutuskan untuk menjalin hubungan yang lebih serius dengan restu keluarga.",
+      },
+      {
+        year: "2023",
+        title: "Lamaran",
+        description: "Dengan penuh kebahagiaan, keluarga besar kami melangsungkan acara lamaran yang penuh kehangatan.",
+      },
+      {
+        year: "2025",
+        title: "Menuju Bahagia",
+        description: "Bismillah, kami siap melangkah ke jenjang pernikahan dan membangun rumah tangga yang sakinah.",
+      },
+    ],
+  },
+  gallery: {
+    section_label: "Momen Berharga",
+    section_title: "Gallery",
+    images: [
+      { url: "/images/hero.png", alt: "Foto prewedding 1" },
+      { url: "/images/hero.png", alt: "Foto prewedding 2" },
+      { url: "/images/hero.png", alt: "Foto prewedding 3" },
+      { url: "/images/hero.png", alt: "Foto prewedding 4" },
+      { url: "/images/hero.png", alt: "Foto prewedding 5" },
+    ],
+  },
+  gift: {
+    section_label: "Hadiah Pernikahan",
+    section_title: "Wedding Gift",
+    instruction_text: "Jika Anda ingin memberikan tanda kasih kepada kami, Anda dapat mengirimkannya melalui rekening berikut.",
+    bank_accounts: [
+      {
+        id: "bca",
+        bank_name: "BCA",
+        account_number: "1234 5678 9012",
+        account_holder: "a.n. Agam Prayoga",
+      },
+      {
+        id: "mandiri",
+        bank_name: "Mandiri",
+        account_number: "9876 5432 1098",
+        account_holder: "a.n. Zahra Ranabila",
+      },
+    ],
+  },
   quotes: [
     {
       bismillah: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",

@@ -54,7 +54,7 @@ export default function Home() {
   }, [isOpened]);
 
   return (
-    <main className="w-full flex flex-col bg-[var(--color-sage)] min-h-screen relative">
+    <main className="w-full flex flex-col bg-[var(--color-cream)] min-h-screen relative">
       <Cover isOpened={isOpened} onOpen={handleOpen} />
       
       {/* Background Music */}

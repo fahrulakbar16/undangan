@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { MOCK_DATA } from "../data";
 import { FadeIn } from "./FadeIn";
-import { Leaf } from "lucide-react";
+import { LeafOrnament } from "./LeafOrnament";
 import { motion } from "framer-motion";
+import { Home, Heart, Calendar, MapPin, MessageSquare } from "lucide-react";
 
 function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
   const characters = Array.from(text);
@@ -61,94 +61,138 @@ function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
   );
 }
 
+const HERO_NAV_ITEMS = [
+  { icon: Home, label: "Beranda" },
+  { icon: Heart, label: "Mempelai" },
+  { icon: Calendar, label: "Acara" },
+  { icon: MapPin, label: "Lokasi" },
+  { icon: MessageSquare, label: "Ucapan" },
+];
+
 export function Hero({ isOpened = false }: { isOpened?: boolean }) {
   const { hero_section, couple } = MOCK_DATA;
 
+  const handleSaveCalendar = () => {
+    const event = hero_section.calendar_event;
+    const startDate = new Date(hero_section.target_date);
+    const endDate = new Date(startDate.getTime() + 6 * 60 * 60 * 1000);
+    const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.summary)}&dates=${fmt(startDate)}/${fmt(endDate)}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}`;
+    window.open(url, "_blank");
+  };
+
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-transparent text-[var(--color-dark-olive)] text-center p-5">
-      {/* ── CORNER FLOWER OVERLAYS ── */}
-      <div className="absolute inset-0 max-h-[100vh] pointer-events-none z-0 overflow-hidden mix-blend-multiply">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/bunga.png"
-          alt=""
-          style={{
-            position: "absolute",
-            width: "115%",
-            height: "112%",
-            top: "-6%",
-            objectFit: "cover",
-            opacity: 0.85,
-          }}
-        />
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-between overflow-hidden bg-[var(--color-cream)] text-[var(--color-dark-olive)] text-center">
+      {/* Top section with content */}
+      <div className="flex-1 flex flex-col items-center justify-center w-full px-6 pt-16 pb-8 relative z-10">
+        {isOpened && (
+          <motion.div
+            className="flex flex-col items-center w-full"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Leaf ornament top */}
+            <FadeIn delay={0.2} direction="down">
+              <LeafOrnament className="w-9 h-9 text-[var(--color-olive)] opacity-70 mb-3 mx-auto" />
+            </FadeIn>
+
+            {/* Eyebrow */}
+            <FadeIn delay={0.4} direction="down">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-[1px] w-8 bg-[var(--color-olive)]/40" />
+                <p className="tracking-[0.2em] uppercase text-[0.65rem] font-semibold text-[var(--color-olive)]">
+                  {hero_section.eyebrow}
+                </p>
+                <div className="h-[1px] w-8 bg-[var(--color-olive)]/40" />
+              </div>
+            </FadeIn>
+
+            {/* Names */}
+            <div className="flex flex-col items-center my-2">
+              <h1 className="font-serif italic" style={{ fontSize: "clamp(2.8rem, 12vw, 4.2rem)", color: "var(--color-dark-olive)", lineHeight: 1.1 }}>
+                <TypewriterText text={couple.groom.first_name} delay={0.6} />
+              </h1>
+
+              <FadeIn delay={1.4} className="my-2 relative">
+                <div className="font-serif italic text-3xl text-[var(--color-olive)] opacity-70 font-light">
+                  &amp;
+                </div>
+              </FadeIn>
+
+              <h1 className="font-serif italic" style={{ fontSize: "clamp(2.8rem, 12vw, 4.2rem)", color: "var(--color-dark-olive)", lineHeight: 1.1 }}>
+                <TypewriterText text={couple.bride.first_name} delay={1.8} />
+              </h1>
+            </div>
+
+            {/* Date */}
+            <FadeIn delay={2.4} direction="up" className="mt-4 flex flex-col items-center gap-4">
+              <p className="font-serif text-base tracking-wider text-[var(--color-dark-olive)]">
+                {new Date(hero_section.target_date).toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+
+              <p className="text-xs opacity-70 max-w-[220px]">
+                {hero_section.calendar_event.location}
+              </p>
+            </FadeIn>
+
+            {/* Save to Calendar button */}
+            <FadeIn delay={2.8} direction="up" className="mt-6">
+              <motion.button
+                onClick={handleSaveCalendar}
+                className="px-6 py-2.5 rounded-full border border-[var(--color-olive)] text-[var(--color-olive)] text-xs font-medium tracking-wider hover:bg-[var(--color-olive)] hover:text-white transition-colors flex items-center gap-2"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Calendar className="w-3.5 h-3.5" />
+                {MOCK_DATA.labels.buttons.save_calendar}
+              </motion.button>
+            </FadeIn>
+          </motion.div>
+        )}
       </div>
 
-      {/* ── CENTERED CREAM CARD ── */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-        animate={isOpened ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 30 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-sm sm:max-w-md rounded-[2.5rem] p-[2px] overflow-hidden"
-        style={{
-          boxShadow: "0 25px 50px -12px rgba(81, 84, 66, 0.15)",
-        }}
-      >
-        {/* Subtle gradient border wrapper */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/10 to-[var(--color-olive)]/30 z-0" />
-        
-        <div className="relative z-10 h-full w-full rounded-[2.4rem] bg-[#FAF9F6]/90 backdrop-blur-md px-6 py-16 sm:px-10 flex flex-col items-center justify-center"
-             style={{ minHeight: "min(520px, 78vh)" }}>
-          
-          {/* Decorative inner border */}
-          <div className="absolute inset-3 sm:inset-4 rounded-[1.8rem] border border-[var(--color-olive)]/15 pointer-events-none z-0" />
+      {/* Watercolor landscape at bottom — seamless blend */}
+      <div className="w-full relative z-0" style={{ marginTop: -1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/watercolor-landscape.jpg"
+            alt=""
+            className="w-full h-auto block"
+          />
+        </motion.div>
+      </div>
 
-          {isOpened && (
-            <div className="flex flex-col items-center w-full relative z-10">
-              <FadeIn delay={0.4} direction="down">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="h-[1px] w-8 bg-[var(--color-olive)]/40" />
-                  <p className="tracking-[0.2em] uppercase text-[0.7rem] sm:text-xs font-semibold text-[var(--color-olive)]">
-                    {hero_section.eyebrow}
-                  </p>
-                  <div className="h-[1px] w-8 bg-[var(--color-olive)]/40" />
+      {/* Bottom nav icons */}
+      {isOpened && (
+        <FadeIn delay={3.2} direction="up">
+          <div className="w-full py-4 px-6 grid grid-cols-5 gap-1 bg-[var(--color-cream)]">
+            {HERO_NAV_ITEMS.map(({ icon: Icon, label }) => (
+              <div key={label} className="flex flex-col items-center gap-1.5">
+                <div className="w-10 h-10 rounded-full bg-[var(--color-beige)]/40 flex items-center justify-center">
+                  <Icon className="w-4 h-4 text-[var(--color-olive)]" strokeWidth={1.5} />
                 </div>
-              </FadeIn>
-
-              <div className="flex flex-col items-center my-4">
-                <h1 className="font-serif italic" style={{ fontSize: "clamp(2.8rem, 12vw, 4.2rem)", color: "var(--color-dark-olive)", lineHeight: 1.1 }}>
-                  <TypewriterText text={couple.groom.first_name} delay={0.6} />
-                </h1>
-                
-                <FadeIn delay={1.4} className="my-3 relative">
-                  <div className="font-serif italic text-4xl sm:text-5xl text-[var(--color-olive)] opacity-80 font-light relative">
-                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-[2px] opacity-40">&amp;</span>
-                    <span className="relative z-10">&amp;</span>
-                  </div>
-                </FadeIn>
-                
-                <h1 className="font-serif italic" style={{ fontSize: "clamp(2.8rem, 12vw, 4.2rem)", color: "var(--color-dark-olive)", lineHeight: 1.1 }}>
-                  <TypewriterText text={couple.bride.first_name} delay={1.8} />
-                </h1>
+                <span className="text-[8px] text-[var(--color-dark-olive)] opacity-60 font-medium tracking-wide">
+                  {label}
+                </span>
               </div>
-
-              <FadeIn delay={2.8} direction="up" className="mt-10 flex flex-col items-center gap-4">
-                <div className="p-2 rounded-full border border-[var(--color-olive)]/20 bg-white/50">
-                  <Leaf className="text-[var(--color-olive)] w-4 h-4 sm:w-5 sm:h-5 stroke-[1.5]" />
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <p className="font-serif text-lg sm:text-xl tracking-wider font-medium text-[var(--color-dark-olive)]">
-                    {new Date(hero_section.target_date).toLocaleDateString("id-ID", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </p>
-                </div>
-              </FadeIn>
-            </div>
-          )}
-        </div>
-      </motion.div>
+            ))}
+          </div>
+        </FadeIn>
+      )}
     </section>
   );
 }

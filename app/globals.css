@@ -26,13 +26,6 @@
   --font-serif: var(--font-playfair);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #515442;
-    --foreground: #ECE9E2;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);

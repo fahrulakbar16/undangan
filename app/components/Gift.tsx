@@ -2,6 +2,7 @@
 
 import { MOCK_DATA } from "../data";
 import { FadeIn } from "./FadeIn";
+import { LeafOrnament } from "./LeafOrnament";
 import { Copy, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 
@@ -16,60 +17,45 @@ export function Gift() {
   };
 
   return (
-    <section className="relative w-full py-24 px-4 bg-transparent text-center text-[var(--color-dark-olive)] overflow-hidden">
-      {/* ── CORNER FLOWER OVERLAYS ── */}
-      <div className="absolute inset-0 max-h-[100vh] pointer-events-none z-0 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/bunga.png"
-          alt=""
-          style={{
-            position: "absolute",
-            width: "115%",
-            height: "112%",
-            top: "-6%",
-            objectFit: "cover",
-            opacity: 0.85,
-          }}
-        />
-      </div>
-
-      {/* ── CENTERED CREAM CARD ── */}
+    <section className="relative w-full py-20 px-4 bg-[var(--color-cream)] text-center text-[var(--color-dark-olive)] overflow-hidden">
+      {/* Card */}
       <div
-        className="relative z-10 w-full max-w-sm mx-auto rounded-[28px] bg-[#FAF9F6] px-5 py-12"
-        style={{ boxShadow: "0 16px 36px rgba(81, 84, 66, 0.08)" }}
+        className="relative z-10 w-full max-w-sm mx-auto rounded-[24px] bg-[#FAF9F6] px-5 py-10"
+        style={{ boxShadow: "0 8px 24px rgba(81, 84, 66, 0.06)" }}
       >
-        <div className="mb-10">
+        {/* Header */}
+        <div className="mb-8">
           <FadeIn>
-            <p className="text-xs uppercase tracking-widest text-[var(--color-olive)] mb-2 font-semibold">
-              {gift.section_label}
-            </p>
-            <h2 className="font-serif text-3xl mb-3 text-[var(--color-olive)]">
+            <div className="flex justify-center mb-4">
+              <LeafOrnament className="w-8 h-8 text-[var(--color-olive)] opacity-50" />
+            </div>
+            <h2 className="font-serif italic text-2xl mb-2 text-[var(--color-olive)]">
               {gift.section_title}
             </h2>
-            <p className="text-sm opacity-85 leading-relaxed max-w-xs mx-auto">
+            <p className="text-xs opacity-80 leading-relaxed max-w-xs mx-auto">
               {gift.instruction_text}
             </p>
           </FadeIn>
         </div>
 
-        <div className="flex flex-col gap-6">
+        {/* Bank accounts */}
+        <div className="flex flex-col gap-4">
           {gift.bank_accounts.map((account: any, index: number) => (
             <FadeIn key={account.id} delay={index * 0.2}>
-              <div className="bg-[var(--color-beige)]/30 rounded-2xl p-5 border border-[var(--color-sage)]/60 relative overflow-hidden text-left shadow-sm">
-                <h3 className="font-serif text-lg mb-1 text-[var(--color-dark-olive)] font-bold">
+              <div className="bg-[var(--color-beige)]/20 rounded-2xl p-5 border border-[var(--color-beige)]/50 text-left">
+                <h3 className="font-serif text-base mb-1 text-[var(--color-dark-olive)] font-bold">
                   {account.bank_name}
                 </h3>
-                <p className="font-mono text-base tracking-widest text-[var(--color-olive)] mb-2">
+                <p className="font-mono text-sm tracking-widest text-[var(--color-olive)] mb-1.5">
                   {account.account_number}
                 </p>
-                <p className="text-xs opacity-85 mb-5">
+                <p className="text-[11px] opacity-75 mb-4">
                   {account.account_holder}
                 </p>
-                
+
                 <button
                   onClick={() => handleCopy(account.account_number, account.id)}
-                  className="w-full py-2 rounded-full border border-[var(--color-olive)] text-[var(--color-olive)] hover:bg-[var(--color-olive)] hover:text-white transition-all flex items-center justify-center gap-2 text-xs font-semibold tracking-wide"
+                  className="w-full py-2 rounded-full border border-[var(--color-olive)]/60 text-[var(--color-olive)] hover:bg-[var(--color-olive)] hover:text-white transition-all flex items-center justify-center gap-2 text-xs font-semibold tracking-wide"
                 >
                   {copiedId === account.id ? (
                     <>
@@ -87,6 +73,22 @@ export function Gift() {
             </FadeIn>
           ))}
         </div>
+
+        {/* Send a Wish sub-section */}
+        <FadeIn delay={0.4}>
+          <div className="mt-8 pt-6 border-t border-[var(--color-sage)]/25">
+            <h3 className="font-serif italic text-lg text-[var(--color-olive)] mb-2">
+              Send a Wish
+            </h3>
+            <p className="text-xs opacity-70 leading-relaxed max-w-[240px] mx-auto mb-3">
+              Kirimkan doa dan ucapan terbaik Anda untuk kedua mempelai.
+            </p>
+            {/* Leaf ornament */}
+            <div className="flex justify-center">
+              <LeafOrnament className="w-7 h-7 text-[var(--color-olive)] opacity-40" />
+            </div>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );

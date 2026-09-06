@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-full flex flex-col items-center selection:bg-[var(--color-sage)] selection:text-[var(--color-dark-olive)]">
         {/* Main wrapper restricts max width for mobile feel */}
-        <div className="w-full max-w-md min-h-screen bg-[var(--color-sage)] shadow-2xl relative overflow-hidden flex flex-col">
+        <div className="w-full max-w-md min-h-screen bg-[var(--color-cream)] shadow-2xl relative overflow-hidden flex flex-col">
           {children}
         </div>
       </body>
