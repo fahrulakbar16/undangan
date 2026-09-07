@@ -1,0 +1,36 @@
+.hero { position: relative; isolation: isolate; width: 100%; min-height: max(760px, 100svh); display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; text-align: center; color: #503722; background: #f1e7d5; padding: 78px 40px 85px; }
+.background { object-fit: cover; object-position: center; z-index: -3; }
+.wash { position: absolute; inset: 0; z-index: -2; background: radial-gradient(ellipse at 50% 48%, #fbf5e533 0, transparent 60%); }
+.content { width: 100%; max-width: 290px; position: relative; z-index: 2; }
+.eyebrow { font-size: 8px; letter-spacing: .3em; margin-bottom: 39px; color: #77614c; }
+.title { display: flex; flex-direction: column; align-items: center; font-family: var(--font-playfair), Georgia, serif; font-weight: 400; line-height: .95; }
+.title > span { font-size: clamp(62px, 18vw, 82px); letter-spacing: -.055em; }
+.title em { font-family: "Snell Roundhand", "Apple Chancery", "URW Chancery L", var(--font-playfair), cursive; font-weight: 400; font-size: clamp(63px, 18vw, 82px); line-height: 1.2; margin: 0 0 0 -5px; transform: rotate(-9deg); }
+.details { margin-top: 36px; }
+.intro { font-size: 9px; letter-spacing: .17em; }
+.names { font-family: var(--font-playfair), Georgia, serif; font-weight: 400; font-size: clamp(23px, 6.8vw, 29px); margin-top: 7px; line-height: 1.4; overflow-wrap: anywhere; }
+.names i { font-size: .8em; margin-inline: 2px; }
+.divider { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 13px; margin: 14px 0; color: #927959; }
+.divider::before, .divider::after { content: ""; height: 1px; width: 28px; background: #94795c66; }
+.date { font-family: var(--font-playfair), Georgia, serif; font-size: 15px; letter-spacing: .025em; }
+.location { font-size: 10px; margin-top: 7px; color: #79634d; }
+.calendar { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 10px; letter-spacing: .025em; padding: 11px 16px; border: 1px solid #92795877; border-radius: 50px; background: #f9f2e477; margin-top: 25px; cursor: pointer; transition: background .2s, color .2s; }
+.calendar:hover { background: #655039; color: #fff8ec; }
+.calendar:focus-visible, .scroll:focus-visible { outline: 2px solid #655039; outline-offset: 5px; }
+.scroll { position: absolute; bottom: 25px; display: flex; flex-direction: column; align-items: center; gap: 9px; z-index: 3; font-size: 7px; letter-spacing: .22em; color: #715c45; }
+.scroll svg { animation: beckon 2.5s ease-in-out infinite; }
+.opened .content { animation: arrive 1.5s ease-out both; }
+.opened .details { animation: arrive 1.6s .5s ease-out both; }
+.petals { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.petals span { position: absolute; top: -40px; left: 16%; width: 15px; height: 22px; background: radial-gradient(ellipse at 30% 20%, #d9b1c1a8, #af708b77); border-radius: 70% 15% 65% 30%; filter: blur(.5px); animation: fall 12s linear infinite; }
+.petals span:nth-child(2) { left: 78%; animation-delay: -6s; animation-duration: 15s; width: 12px; height: 18px; }
+.petals span:nth-child(3) { left: 36%; animation-delay: -9s; animation-duration: 14s; }
+.petals span:nth-child(4) { left: 65%; animation-delay: -2s; width: 19px; height: 25px; filter: blur(1.5px); }
+.petals span:nth-child(5) { left: 7%; animation-delay: -4s; animation-duration: 17s; }
+.petals span:nth-child(6) { left: 88%; animation-delay: -10s; animation-duration: 13s; }
+.petals span:nth-child(7) { left: 48%; animation-delay: -7s; animation-duration: 18s; width: 10px; height: 15px; }
+@keyframes arrive { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes beckon { 50% { transform: translateY(4px); } }
+@keyframes fall { 0% { transform: translate3d(0, -25px, 0) rotate(0); opacity: 0; } 10% { opacity: .8; } 85% { opacity: .65; } 100% { transform: translate3d(35px, max(850px, 110svh), 0) rotate(260deg); opacity: 0; } }
+@media (max-width: 360px) { .hero { padding-inline: 35px; } .title > span { font-size: 66px; } .names { font-size: 23px; } }
+@media (prefers-reduced-motion: reduce) { .opened .content, .opened .details, .scroll svg, .petals span { animation: none; } .petals { display: none; } }
