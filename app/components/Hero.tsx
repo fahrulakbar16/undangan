@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Calendar, ChevronDown } from "lucide-react";
 import { MOCK_DATA } from "../data";
 import styles from "./Hero.module.css";
@@ -27,36 +26,42 @@ export function Hero({ isOpened = false }: { isOpened?: boolean }) {
 
   return (
     <section className={`${styles.hero} ${isOpened ? styles.opened : ""}`} aria-label={`Undangan pernikahan ${weddingNames}`}>
-      <Image src="/images/hero-wildflowers.webp" alt="" fill sizes="(max-width: 448px) 100vw, 448px" className={styles.background} />
-      <div className={styles.wash} aria-hidden="true" />
-      {isOpened && (
-        <>
-          <div className={styles.petals} aria-hidden="true">
-            {[0, 1, 2, 3, 4, 5, 6].map((i) => <span key={i} />)}
-          </div>
-          <div className={styles.content}>
-            <p className={styles.eyebrow}>A BEAUTIFUL BEGINNING</p>
-            <h1 className={styles.title} aria-label="Save the Date">
-              <span>SAVE</span>
-              <em>the</em>
-              <span>DATE</span>
-            </h1>
-            <div className={styles.details}>
-              <p className={styles.intro}>{hero_section.eyebrow}</p>
-              <h2 className={styles.names}>{couple.groom.first_name} <i>&amp;</i> {couple.bride.first_name}</h2>
-              <span className={styles.divider} aria-hidden="true">✧</span>
-              <p className={styles.date}>{dateLabel}</p>
-              <p className={styles.location}>{hero_section.calendar_event.location}</p>
-              <button onClick={handleSaveCalendar} className={styles.calendar}>
-                <Calendar size={14} strokeWidth={1.3} />{labels.buttons.save_calendar}
-              </button>
+      <div className={styles.portrait}>
+        <div className={styles.branchTop} aria-hidden="true" />
+        <div className={styles.branchBottom} aria-hidden="true" />
+        <div className={styles.branchForeground} aria-hidden="true" />
+        <div className={styles.wash} aria-hidden="true" />
+        {isOpened && (
+          <>
+            <div className={styles.petals} aria-hidden="true">
+              {[0, 1, 2, 3, 4, 5, 6].map((i) => <span key={i} />)}
             </div>
-          </div>
-          <a href="#couple" className={styles.scroll} aria-label="Lihat profil mempelai">
-            <span>OUR FOREVER STARTS HERE</span><ChevronDown size={18} strokeWidth={1} />
-          </a>
-        </>
-      )}
+            <div className={styles.content}>
+              <div className={styles.monogram} aria-hidden="true">
+                <span>{couple.groom.first_name[0]}</span><i>/</i><span>{couple.bride.first_name[0]}</span>
+              </div>
+              <p className={styles.promise}>and, somehow,<br />here we are</p>
+              <span className={styles.divider} aria-hidden="true">✧</span>
+              <div id="hero-details" className={styles.details}>
+                {/* Temporarily hidden; remove hidden to show the wedding details again. */}
+                <div hidden>
+                  <p className={styles.intro}>{hero_section.eyebrow}</p>
+                  <h1 className={styles.names}>{couple.groom.first_name} <i>&amp;</i> {couple.bride.first_name}</h1>
+                  <span className={styles.divider} aria-hidden="true">✧</span>
+                  <p className={styles.date}>{dateLabel}</p>
+                  <p className={styles.location}>{hero_section.calendar_event.location}</p>
+                </div>
+                <button onClick={handleSaveCalendar} className={styles.calendar}>
+                  <Calendar size={14} strokeWidth={1.3} />{labels.buttons.save_calendar}
+                </button>
+              </div>
+            </div>
+            <a href="#couple" className={styles.scroll} aria-label="Lihat profil mempelai">
+              <span>SCROLL TO DISCOVER</span><ChevronDown size={18} strokeWidth={1} />
+            </a>
+          </>
+        )}
+      </div>
     </section>
   );
 }

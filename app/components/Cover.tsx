@@ -9,30 +9,42 @@ import styles from "./Cover.module.css";
 interface CoverProps {
   isOpened: boolean;
   onOpen: () => void;
+  onStartOpening: () => void;
+  onReveal: () => void;
 }
 
 const subscribe = () => () => {};
 const getGuest = () => new URLSearchParams(window.location.search).get("to") || "";
 const getServerGuest = () => "";
 
-export function Cover({ isOpened, onOpen }: CoverProps) {
+export function Cover({ isOpened, onOpen, onReveal, onStartOpening }: CoverProps) {
   const { couple } = MOCK_DATA;
   const [opening, setOpening] = useState(false);
   const guestName = useSyncExternalStore(subscribe, getGuest, getServerGuest);
   const started = useRef(false);
   const onOpenRef = useRef(onOpen);
+  const onRevealRef = useRef(onReveal);
 
-  useEffect(() => { onOpenRef.current = onOpen; }, [onOpen]);
+  useEffect(() => {
+    onOpenRef.current = onOpen;
+    onRevealRef.current = onReveal;
+  }, [onOpen, onReveal]);
   useEffect(() => {
     if (!opening || isOpened) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const timer = window.setTimeout(() => onOpenRef.current(), reduced ? 450 : 4800);
-    return () => window.clearTimeout(timer);
+    // Reveal the hero underneath while the card settles into the background.
+    const revealTimer = window.setTimeout(() => onRevealRef.current(), reduced ? 0 : 7000);
+    const timer = window.setTimeout(() => onOpenRef.current(), reduced ? 450 : 8200);
+    return () => {
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(timer);
+    };
   }, [opening, isOpened]);
 
   const open = () => {
     if (started.current) return;
     started.current = true;
+    onStartOpening();
     setOpening(true);
   };
 

@@ -4,7 +4,7 @@ export const MOCK_DATA: InvitationData = {
   invitation_meta: {
     slug: "rizky-aulia",
     primary_language: "id",
-    music_url: "/lagu.mp3",
+    music_url: "/music.mp3",
     theme_config: {
       primary_color: "#8b6d46",
       font_family_serif: "var(--font-serif)",

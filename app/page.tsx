@@ -16,27 +16,29 @@ import { Volume2, VolumeX } from "lucide-react";
 
 export default function Home() {
   const [isOpened, setIsOpened] = useState(false);
+  const [heroVisible, setHeroVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handleOpen = () => {
-    setIsOpened(true);
-    if (audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((e) => console.log("Audio play failed:", e));
-    }
+  const handleOpen = () => setIsOpened(true);
+
+  const playAudio = () => {
+    // Start playback directly from the cover click, before any animation timers.
+    const audio = audioRef.current;
+    if (!audio) return;
+    void audio.play().catch((error: unknown) => {
+      setIsPlaying(false);
+      console.error("Audio play failed:", error);
+    });
   };
 
   const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play();
-        setIsPlaying(true);
-      }
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      playAudio();
+    } else {
+      audio.pause();
     }
   };
 
@@ -55,11 +57,19 @@ export default function Home() {
 
   return (
     <main className="w-full flex flex-col bg-[var(--color-cream)] min-h-screen relative">
-      <Cover isOpened={isOpened} onOpen={handleOpen} />
+      <Cover isOpened={isOpened} onOpen={handleOpen} onStartOpening={playAudio} onReveal={() => setHeroVisible(true)} />
       
       {/* Background Music */}
       {MOCK_DATA.invitation_meta?.music_url && (
-        <audio ref={audioRef} loop src={MOCK_DATA.invitation_meta.music_url} />
+        <audio
+          ref={audioRef}
+          loop
+          preload="auto"
+          src={MOCK_DATA.invitation_meta.music_url}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onError={() => setIsPlaying(false)}
+        />
       )}
 
       {/* Audio Control Button */}
@@ -67,7 +77,7 @@ export default function Home() {
         <button
           onClick={toggleAudio}
           className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 p-3 sm:p-4 rounded-full bg-white/70 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[var(--color-olive)]/20 text-[var(--color-olive)] hover:bg-white hover:scale-110 transition-all duration-300"
-          aria-label="Toggle Music"
+          aria-label={isPlaying ? "Jeda musik" : "Putar musik"}
         >
           {isPlaying ? (
             <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -80,7 +90,7 @@ export default function Home() {
       {/* Sections with IDs for scrolling */}
       {MOCK_DATA.hero_section && (
         <div id="top">
-          <Hero isOpened={isOpened} />
+          <Hero isOpened={heroVisible} />
         </div>
       )}
       
