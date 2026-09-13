@@ -39,8 +39,8 @@ const invitationContent = {
     "main_title": "and, somehow, here we are.",
     "label": "Undangan Pernikahan",
     "date_label": "31 • 10 • 2026",
-    "target_date": "2026-10-31T09:00:00+07:00",
-    "end_date": "2026-10-31T11:00:00+07:00",
+    "target_date": "2026-10-31T08:30:00+07:00",
+    "end_date": "2026-10-31T10:00:00+07:00",
     "calendar_event": {
       "summary": "The Wedding of Agam & Zahra",
       "location": "Masjid Daarul Matiin Cibadak",
@@ -91,7 +91,7 @@ const invitationContent = {
       "type": "Akad Nikah",
       "title": "",
       "date_formatted": "Sabtu, 31 Oktober 2026",
-      "time_range": "09.00 – 11.00 WIB",
+      "time_range": "08.30 – 10.00 WIB",
       "venue_name": "Masjid Daarul Matiin Cibadak",
       "address": "",
       "maps_url": "https://maps.app.goo.gl/zgQMR4qEJQm5LR1w9"
