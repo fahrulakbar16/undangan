@@ -10,6 +10,7 @@ import { Gift } from "./components/Gift";
 import { Wishes } from "./components/Wishes";
 import { FloatingNav } from "./components/FloatingNav";
 import { Cover } from "./components/Cover";
+import { FallingFlowers } from "./components/FallingFlowers";
 import { MOCK_DATA } from "./data";
 import { Volume2, VolumeX } from "lucide-react";
 
@@ -66,6 +67,7 @@ export default function Home() {
 
   return (
     <main className="w-full flex flex-col bg-[var(--color-cream)] min-h-screen relative">
+      <FallingFlowers />
       <Cover isOpened={isOpened} onOpen={handleOpen} onStartOpening={playAudio} onReveal={() => setHeroVisible(true)} />
       
       {/* Background Music */}

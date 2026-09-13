@@ -71,7 +71,7 @@ export function JustUs() {
             <p className="font-serif text-lg leading-8 whitespace-pre-line">{person.description}</p>
           </div>
         ))}
-        <p className="font-serif italic text-sm leading-7 opacity-75">{just_us.phrase}</p>
+        <p className={`${styles.scriptPhrase} opacity-75`}>{just_us.phrase}</p>
         <Monogram />
       </FadeIn>
     </section>
