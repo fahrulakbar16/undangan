@@ -18,6 +18,15 @@ export default function Home() {
   const [heroVisible, setHeroVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioStartApplied = useRef(false);
+
+  const prepareAudioStart = () => {
+    const audio = audioRef.current;
+    if (!audio || audio.readyState < 1 || audioStartApplied.current) return;
+    const start = MOCK_DATA.invitation_meta.music_start_seconds;
+    audio.currentTime = start < audio.duration ? start : 0;
+    audioStartApplied.current = true;
+  };
 
   const handleOpen = () => setIsOpened(true);
 
@@ -25,6 +34,7 @@ export default function Home() {
     // Start playback directly from the cover click, before any animation timers.
     const audio = audioRef.current;
     if (!audio) return;
+    prepareAudioStart();
     void audio.play().catch((error: unknown) => {
       setIsPlaying(false);
       console.error("Audio play failed:", error);
@@ -62,9 +72,13 @@ export default function Home() {
       {MOCK_DATA.invitation_meta?.music_url && (
         <audio
           ref={audioRef}
-          loop
           preload="auto"
           src={MOCK_DATA.invitation_meta.music_url}
+          onLoadedMetadata={prepareAudioStart}
+          onEnded={() => {
+            audioStartApplied.current = false;
+            playAudio();
+          }}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onError={() => setIsPlaying(false)}

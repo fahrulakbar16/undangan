@@ -25,7 +25,8 @@ const invitationContent = {
   "invitation_meta": {
     "slug": "agam-zahra",
     "primary_language": "id",
-    "music_url": "/music.mp3",
+    "music_url": "/qqq-compressed.mp3",
+    "music_start_seconds": 82,
     "monogram": "A/Z",
     "theme_config": {
       "primary_color": "#6F744A",
