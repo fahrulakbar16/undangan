@@ -1,26 +1,29 @@
 "use client";
 
+import styles from "./Invitation.module.css";
 import { MOCK_DATA } from "../data";
 import { FadeIn } from "./FadeIn";
 import { LeafOrnament } from "./LeafOrnament";
 import { Send, UserCircle2 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 // Auto-cycling wish ticker — shows 2 cards, scrolls 1 at a time
 function WishTicker({ wishes }: { wishes: typeof MOCK_DATA.wishes }) {
   const [startIdx, setStartIdx] = useState(0);
+  const reducedMotion = useReducedMotion();
   const n = wishes.length;
 
   useEffect(() => {
+    if (n < 2 || reducedMotion) return;
     const timer = setInterval(() => {
       setStartIdx((prev) => (prev + 1) % n);
     }, 3500);
     return () => clearInterval(timer);
-  }, [n]);
+  }, [n, reducedMotion]);
 
   // Sliding window of 2
-  const visibleItems = [wishes[startIdx % n], wishes[(startIdx + 1) % n]];
+  const visibleItems = Array.from({ length: reducedMotion ? n : Math.min(2, n) }, (_, i) => wishes[(startIdx + i) % n]);
 
   return (
     <div className="relative">
@@ -36,14 +39,13 @@ function WishTicker({ wishes }: { wishes: typeof MOCK_DATA.wishes }) {
             <motion.div
               key={wish.id}
               layout
-              initial={{ opacity: 0, y: 48 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 48 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -48, scale: 0.96 }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: reducedMotion ? 0 : 0.5, ease: [0.4, 0, 0.2, 1] }}
             >
               <div
-                className="bg-[#FAF9F6] rounded-[20px] p-4"
-                style={{ boxShadow: "0 4px 16px rgba(81, 84, 66, 0.05)" }}
+                className={`${styles.paper} ${styles.wish}`}
               >
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-[var(--color-beige)]/40 flex items-center justify-center shrink-0">
@@ -74,10 +76,11 @@ function WishTicker({ wishes }: { wishes: typeof MOCK_DATA.wishes }) {
 }
 
 export function Wishes() {
-  const { wishes, labels } = MOCK_DATA;
+  const reducedMotion = useReducedMotion();
+  const { wishes, labels, rsvp } = MOCK_DATA;
 
   return (
-    <section id="rsvp" className="relative w-full py-20 px-4 bg-[var(--color-cream)] text-[var(--color-dark-olive)] overflow-hidden">
+    <section id="rsvp" className={styles.section}>
       <div className="relative z-10 w-full max-w-sm mx-auto">
         {/* Section header */}
         <div className="text-center mb-8">
@@ -86,10 +89,10 @@ export function Wishes() {
               <LeafOrnament className="w-8 h-8 text-[var(--color-olive)] opacity-50" />
             </div>
             <h2 className="font-serif italic text-2xl mb-2 text-[var(--color-olive)]">
-              Ucapan Tamu
+              {rsvp.section_title}
             </h2>
-            <p className="text-xs opacity-80 leading-relaxed max-w-xs mx-auto text-[var(--color-dark-olive)]">
-              Kehadiran dan doa restu Anda adalah anugerah terindah bagi kami.
+            <p className="text-xs opacity-80 leading-relaxed max-w-xs mx-auto whitespace-pre-line text-[var(--color-dark-olive)]">
+              {rsvp.description}
             </p>
           </FadeIn>
         </div>
@@ -97,8 +100,7 @@ export function Wishes() {
         {/* Form card */}
         <FadeIn>
           <div
-            className="bg-[#FAF9F6] rounded-[24px] p-5 mb-8"
-            style={{ boxShadow: "0 8px 24px rgba(81, 84, 66, 0.06)" }}
+            className={`${styles.paper} ${styles.form} mb-8`}
           >
             <form className="flex flex-col gap-3.5" onSubmit={(e) => e.preventDefault()}>
               <input
@@ -107,17 +109,18 @@ export function Wishes() {
                 className="w-full px-4 py-2.5 rounded-xl border border-[var(--color-sage)]/60 bg-[#FAF9F6] focus:outline-none focus:border-[var(--color-olive)] focus:ring-1 focus:ring-[var(--color-olive)] transition-colors text-sm"
               />
 
-              <div className="flex items-center gap-4">
+              <div className={`${styles.attendance} flex flex-col gap-3`}>
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input type="radio" name="attend" className="accent-[var(--color-olive)]" defaultChecked />
-                  <span className="text-xs">Hadir</span>
+                  <span className="text-xs">{rsvp.yes_label}</span>
                 </label>
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input type="radio" name="attend" className="accent-[var(--color-olive)]" />
-                  <span className="text-xs">Tidak Hadir</span>
+                  <span className="text-xs">{rsvp.no_label}</span>
                 </label>
               </div>
 
+              <h3 className="font-serif text-xl text-center mt-6 mb-2">{rsvp.wishes_title}</h3>
               <textarea
                 placeholder={labels.placeholders.message}
                 rows={3}
@@ -126,9 +129,9 @@ export function Wishes() {
 
               <motion.button
                 type="submit"
-                className="w-full py-2.5 rounded-xl bg-[var(--color-olive)] text-white text-xs font-medium tracking-wide flex items-center justify-center gap-2"
-                whileHover={{ scale: 1.02, backgroundColor: "var(--color-dark-olive)" }}
-                whileTap={{ scale: 0.97 }}
+                className={`${styles.submit} w-full py-2.5 text-xs font-medium tracking-wide flex items-center justify-center gap-2`}
+                whileHover={reducedMotion ? undefined : { scale: 1.02, backgroundColor: "var(--color-dark-olive)" }}
+                whileTap={reducedMotion ? undefined : { scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <Send className="w-3.5 h-3.5" />

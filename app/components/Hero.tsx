@@ -7,19 +7,17 @@ import styles from "./Hero.module.css";
 export function Hero({ isOpened = false }: { isOpened?: boolean }) {
   const { hero_section, couple, labels } = MOCK_DATA;
   const weddingNames = `${couple.groom.first_name} & ${couple.bride.first_name}`;
-  const dateLabel = new Date(hero_section.target_date).toLocaleDateString("id-ID", {
-    day: "numeric", month: "long", year: "numeric",
-  });
+  const dateLabel = hero_section.date_label;
 
   const handleSaveCalendar = () => {
     const event = hero_section.calendar_event;
     const startDate = new Date(hero_section.target_date);
-    const endDate = new Date(startDate.getTime() + 6 * 60 * 60 * 1000);
+    const endDate = new Date(hero_section.end_date);
     const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
     const params = new URLSearchParams({
-      action: "TEMPLATE", text: `The Wedding of ${weddingNames}`,
+      action: "TEMPLATE", text: event.summary,
       dates: `${fmt(startDate)}/${fmt(endDate)}`,
-      details: `Pernikahan ${weddingNames}`, location: event.location,
+      details: event.description, location: event.location,
     });
     window.open(`https://calendar.google.com/calendar/render?${params}`, "_blank", "noopener,noreferrer");
   };
@@ -40,11 +38,10 @@ export function Hero({ isOpened = false }: { isOpened?: boolean }) {
               <div className={styles.monogram} aria-hidden="true">
                 <span>{couple.groom.first_name[0]}</span><i>/</i><span>{couple.bride.first_name[0]}</span>
               </div>
-              <p className={styles.promise}>and, somehow,<br />here we are</p>
+              <p className={styles.promise}>{hero_section.main_title}</p>
               <span className={styles.divider} aria-hidden="true">✧</span>
               <div id="hero-details" className={styles.details}>
-                {/* Temporarily hidden; remove hidden to show the wedding details again. */}
-                <div hidden>
+                <div>
                   <p className={styles.intro}>{hero_section.eyebrow}</p>
                   <h1 className={styles.names}>{couple.groom.first_name} <i>&amp;</i> {couple.bride.first_name}</h1>
                   <span className={styles.divider} aria-hidden="true">✧</span>
@@ -56,7 +53,7 @@ export function Hero({ isOpened = false }: { isOpened?: boolean }) {
                 </button>
               </div>
             </div>
-            <a href="#couple" className={styles.scroll} aria-label="Lihat profil mempelai">
+            <a href="#quote" className={styles.scroll} aria-label="Lanjut membaca undangan">
               <span>SCROLL TO DISCOVER</span><ChevronDown size={18} strokeWidth={1} />
             </a>
           </>

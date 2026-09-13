@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { MOCK_DATA } from "../data";
-import { LeafOrnament } from "./LeafOrnament";
 import { ArrowRight } from "lucide-react";
 import styles from "./Cover.module.css";
 
@@ -76,7 +75,7 @@ export function Cover({ isOpened, onOpen, onReveal, onStartOpening }: CoverProps
             <span className={styles.envelopeFlowers} />
           </span>
           <span className={styles.flap}><span /></span>
-          <span className={styles.seal}><LeafOrnament className={styles.sealLeaf} /></span>
+          <span className={styles.seal}><span className="font-serif text-sm tracking-wide">{MOCK_DATA.invitation_meta.monogram}</span></span>
         </span>
       </button>
 

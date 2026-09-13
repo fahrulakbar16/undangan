@@ -5,6 +5,7 @@ import { Heart } from "lucide-react";
 
 export function Story() {
   const { story } = MOCK_DATA;
+  if (!story) return null;
 
   return (
     <section className="relative w-full py-20 px-4 bg-[var(--color-cream)] text-[var(--color-dark-olive)] overflow-hidden">
@@ -33,7 +34,7 @@ export function Story() {
         </div>
 
         <div className="relative border-l border-[var(--color-sage)]/50 ml-2 pb-2 space-y-8">
-          {story.timeline.map((item: any, index: number) => (
+          {story.timeline.map((item, index: number) => (
             <FadeIn key={index} delay={index * 0.15} direction="left">
               <div className="relative pl-6">
                 {/* Timeline dot */}

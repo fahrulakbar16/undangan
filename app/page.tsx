@@ -5,8 +5,7 @@ import { Hero } from "./components/Hero";
 import { Quote } from "./components/Quote";
 import { Couple } from "./components/Couple";
 import { Events } from "./components/Events";
-import { Story } from "./components/Story";
-import { Gallery } from "./components/Gallery";
+import { Distance, JustUs, DressCode, Closing } from "./components/PersonalSections";
 import { Gift } from "./components/Gift";
 import { Wishes } from "./components/Wishes";
 import { FloatingNav } from "./components/FloatingNav";
@@ -98,6 +97,9 @@ export default function Home() {
         <Quote />
       )}
       
+      <Distance />
+      <JustUs />
+
       {MOCK_DATA.couple && (
         <div id="couple">
           <Couple />
@@ -110,24 +112,11 @@ export default function Home() {
         </div>
       )}
       
-      {MOCK_DATA.story && MOCK_DATA.story.timeline && MOCK_DATA.story.timeline.length > 0 && (
-        <Story />
-      )}
-      
-      {MOCK_DATA.gallery && MOCK_DATA.gallery.images && MOCK_DATA.gallery.images.length > 0 && (
-        <div id="gallery">
-          <Gallery />
-        </div>
-      )}
-      
-      {MOCK_DATA.gift && MOCK_DATA.gift.bank_accounts && MOCK_DATA.gift.bank_accounts.length > 0 && (
-        <Gift />
-      )}
-      
-      {MOCK_DATA.wishes && (
-        <Wishes />
-      )}
-      
+      <DressCode />
+      <Wishes />
+      <Gift />
+      <Closing />
+
       {/* Global Elements */}
       <FloatingNav />
     </main>

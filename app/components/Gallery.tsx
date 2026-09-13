@@ -7,6 +7,7 @@ import Image from "next/image";
 
 export function Gallery() {
   const { gallery } = MOCK_DATA;
+  if (!gallery) return null;
 
   return (
     <section className="relative w-full py-20 px-4 bg-[var(--color-cream)] text-center text-[var(--color-dark-olive)] overflow-hidden">
@@ -31,7 +32,7 @@ export function Gallery() {
 
         {/* Masonry-style grid layout */}
         <div className="grid grid-cols-2 gap-3 px-1">
-          {gallery.images.map((img: any, index: number) => (
+          {gallery.images.map((img, index: number) => (
             <FadeIn
               key={index}
               delay={index * 0.1}

@@ -1,14 +1,16 @@
 "use client";
 
+import styles from "./Invitation.module.css";
 import { MOCK_DATA } from "../data";
 import { FadeIn } from "./FadeIn";
 import { LeafOrnament } from "./LeafOrnament";
 import { CalendarDays, MapPin, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 // Countdown timer component
 function Countdown({ targetDate }: { targetDate: string }) {
+  const reducedMotion = useReducedMotion();
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
@@ -44,12 +46,11 @@ function Countdown({ targetDate }: { targetDate: string }) {
           <div key={i} className="flex items-center gap-2">
             <div className="flex flex-col items-center">
               <div
-                className="w-14 h-14 rounded-xl bg-[var(--color-olive)] flex items-center justify-center"
-                style={{ boxShadow: "0 4px 12px rgba(81, 84, 66, 0.2)" }}
+                className={`${styles.countdown} w-14 h-14 flex items-center justify-center`}
               >
                 <motion.span
                   key={block.value}
-                  initial={{ opacity: 0, y: -8 }}
+                  initial={reducedMotion ? false : { opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="text-white font-serif text-xl font-bold"
                 >
@@ -72,9 +73,12 @@ function Countdown({ targetDate }: { targetDate: string }) {
 
 export function Events() {
   const { events } = MOCK_DATA;
+  const weddingDate = new Date(MOCK_DATA.hero_section.target_date);
+  const datePart = (options: Intl.DateTimeFormatOptions) =>
+    weddingDate.toLocaleDateString("id-ID", { ...options, timeZone: "Asia/Jakarta" }).toUpperCase();
 
   return (
-    <section className="relative w-full py-20 px-4 bg-[var(--color-cream)] text-center text-[var(--color-dark-olive)] overflow-hidden">
+    <section className={`${styles.section} text-center`}>
       <div className="relative z-10 w-full max-w-sm mx-auto">
         {/* Section header */}
         <FadeIn>
@@ -84,17 +88,23 @@ export function Events() {
           <h2
             className="font-serif italic text-2xl mb-8 text-[var(--color-olive)]"
           >
-            The Ceremony
+            THE DAY
           </h2>
         </FadeIn>
 
+        <FadeIn>
+          <div className={styles.dateFeature} aria-label={events[0].date_formatted}>
+            <span>{datePart({ weekday: "long" })}</span>
+            <strong>{datePart({ day: "numeric" })}</strong>
+            <span>{datePart({ month: "long" })} · {datePart({ year: "numeric" })}</span>
+          </div>
+        </FadeIn>
         {/* Event cards */}
         <div className="flex flex-col gap-6">
-          {events.map((event: any, index: number) => (
+          {events.map((event, index: number) => (
             <FadeIn key={event.id} delay={index * 0.2}>
               <div
-                className="bg-[#FAF9F6] rounded-[24px] p-6 relative overflow-hidden text-left"
-                style={{ boxShadow: "0 8px 24px rgba(81, 84, 66, 0.06)" }}
+                className={`${styles.paper} ${styles.event} relative overflow-hidden text-left`}
               >
                 {/* Event type icon */}
                 <div className="flex items-center gap-2 mb-3">
@@ -106,9 +116,7 @@ export function Events() {
                   </h3>
                 </div>
 
-                <p className="font-serif italic text-xl mb-4 text-[var(--color-dark-olive)]">
-                  {event.title}
-                </p>
+                {event.title && <p className="font-serif italic text-xl mb-4">{event.title}</p>}
 
                 <div className="flex flex-col gap-3 text-sm opacity-85 mb-5">
                   <div className="flex items-start gap-3">
@@ -123,7 +131,7 @@ export function Events() {
                     <MapPin className="w-4 h-4 text-[var(--color-olive)] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-medium text-xs">{event.venue_name}</p>
-                      <p className="opacity-75 leading-relaxed text-xs">{event.address}</p>
+                      {event.address && <p className="opacity-75 leading-relaxed text-xs">{event.address}</p>}
                     </div>
                   </div>
                 </div>
@@ -144,7 +152,7 @@ export function Events() {
 
         {/* Countdown section */}
         <FadeIn delay={0.4} direction="up">
-          <div className="mt-10">
+          <div className={`${styles.countdownPanel} mt-10`}>
             <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--color-olive)] font-semibold mb-4">
               Countdown
             </p>

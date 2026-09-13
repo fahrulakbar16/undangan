@@ -54,7 +54,7 @@ export function FloatingNav() {
   const visibleItems = NAV_ITEMS.filter(({ id }) => {
     if (id === "couple")  return !!MOCK_DATA.couple;
     if (id === "events")  return MOCK_DATA.events?.length > 0;
-    if (id === "gallery") return MOCK_DATA.gallery?.images?.length > 0;
+    if (id === "gallery") return (MOCK_DATA.gallery?.images?.length ?? 0) > 0;
     if (id === "rsvp")    return !!MOCK_DATA.wishes;
     return true; // top always shown
   });
