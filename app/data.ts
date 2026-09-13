@@ -53,7 +53,7 @@ const invitationContent = {
       "Ada kota-kota yang memisahkan, ada hari-hari yang hanya bisa dilewati lewat layar.",
       "Tapi barangkali, jarak memang tidak selalu datang untuk menjauhkan. Kadang ia hanya ingin mengajarkan bagaimana caranya tetap memilih, bahkan ketika tidak bisa selalu berdekatan."
     ],
-    "phrase": "Somewhere between the distance, we found our way home."
+    "phrase": "At last, we found our way home through the distance and time."
   },
   "just_us": {
     "section_title": "JUST US",
@@ -67,7 +67,7 @@ const invitationContent = {
         "description": "He notices the little things,\nthe details others might miss,\nand believes every detail matters."
       }
     ],
-    "phrase": "Two different ways of seeing the world, yet somehow, the same place to belong."
+    "phrase": "Two different souls seeing the world, yet somehow, end up in the same place."
   },
   "couple": {
     "section_title": "THE DAY WE CHOOSE",
