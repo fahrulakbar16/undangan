@@ -2,7 +2,8 @@
 
 import styles from "./Invitation.module.css";
 import { MOCK_DATA } from "../data";
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { FadeIn } from "./FadeIn";
 
@@ -13,20 +14,27 @@ export function Monogram() {
 export function Distance() {
   const { distance, couple } = MOCK_DATA;
   const reducedMotion = useReducedMotion();
+  const journeyRef = useRef<HTMLDivElement>(null);
+  // Observe the HTML container, rather than the SVG path, on mobile browsers.
+  const journeyVisible = useInView(journeyRef, { amount: 0.6 });
+  const animateJourney = journeyVisible && !reducedMotion;
   return (
     <section aria-labelledby="distance-title" className={`${styles.section} ${styles.story} text-center`}>
       <FadeIn className="max-w-sm mx-auto">
         <h2 id="distance-title" className={styles.distanceTitle}>{distance.section_title}</h2>
-        <div className={styles.distanceJourney}>
+        <div ref={journeyRef} className={styles.distanceJourney}>
           <svg viewBox="0 0 320 115" fill="none" aria-hidden="true" className={styles.distanceRoute}>
             <path d="M35 78 C90 78 77 22 132 32 S221 102 285 38" stroke="#929778" strokeOpacity=".25" strokeWidth="1" strokeDasharray="3 6" />
             <motion.path
               d="M35 78 C90 78 77 22 132 32 S221 102 285 38"
               stroke="#8a906b" strokeWidth="1.4" strokeLinecap="round"
-              initial={reducedMotion ? false : { pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: reducedMotion ? 0 : 2.2, delay: reducedMotion ? 0 : 0.3, ease: "easeInOut" }}
+              initial={false}
+              animate={animateJourney
+                ? { pathLength: [0, 1, 1], opacity: [1, 1, 0] }
+                : { pathLength: 1, opacity: 1 }}
+              transition={animateJourney
+                ? { duration: 4.5, times: [0, 0.65, 1], delay: 0.8, repeat: Infinity, repeatDelay: 0.6, ease: "easeInOut" }
+                : { duration: 0 }}
             />
             <circle cx="35" cy="78" r="12" fill="#e7e7d8" />
             <circle cx="35" cy="78" r="4" fill="#81885e" />
