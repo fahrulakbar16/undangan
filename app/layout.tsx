@@ -14,9 +14,9 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
-const kunstler = localFont({
-  src: "../public/fonts/kunstler/KunstlerScript.ttf",
-  variable: "--font-kunstler",
+const vladimir = localFont({
+  src: "../public/fonts/vladimir-script.ttf",
+  variable: "--font-vladimir",
   weight: "400",
   style: "normal",
   display: "swap",
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${playfair.variable} ${kunstler.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} ${vladimir.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col items-center selection:bg-[var(--color-sage)] selection:text-[var(--color-dark-olive)]">
         {/* Main wrapper restricts max width for mobile feel */}

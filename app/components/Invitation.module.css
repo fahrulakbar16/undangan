@@ -144,7 +144,7 @@
 .story .distanceCopy p:first-child { font-family: var(--font-playfair), Georgia, serif; font-size: 17px; line-height: 1.9; color: #656d50; }
 .distanceNote { position: relative; margin: 35px auto 0; padding: 29px 25px 22px; max-width: 310px; background: linear-gradient(135deg, #faf8f0b3, #e9e7d780); border: 1px solid #aaae903d; border-radius: 2px 20px 2px 20px; }
 .distanceQuoteMark { position: absolute; left: 19px; top: -19px; font-family: Georgia, serif; font-size: 52px; line-height: 1; color: #a1a687; }
-.scriptPhrase, .story .distanceNote p { font-family: var(--font-kunstler), cursive; font-size: clamp(30px, 8vw, 36px); font-weight: 400; font-style: normal; line-height: 1.4; }
+.scriptPhrase, .story .distanceNote p { font-family: var(--font-vladimir), cursive; font-size: clamp(30px, 8vw, 36px); font-weight: 400; font-style: normal; line-height: 1.4; }
 .story .distanceNote p { color: #777e5d; }
 .distanceSignature { display: block; margin-top: 17px; font-family: var(--font-playfair), Georgia, serif; font-size: 12px; letter-spacing: .18em; color: #969c7b; }
 @media (max-width: 360px) { .story { padding-inline: 24px; } .distanceNote { padding-inline: 20px; } }

@@ -46,7 +46,6 @@ export function Hero({ isOpened = false }: { isOpened?: boolean }) {
                   <h1 className={styles.names}>{couple.groom.first_name} <i>&amp;</i> {couple.bride.first_name}</h1>
                   <span className={styles.divider} aria-hidden="true">✧</span>
                   <p className={styles.date}>{dateLabel}</p>
-                  <p className={styles.location}>{hero_section.calendar_event.location}</p>
                 </div>
                 <button onClick={handleSaveCalendar} className={styles.calendar}>
                   <Calendar size={14} strokeWidth={1.3} />{labels.buttons.save_calendar}
